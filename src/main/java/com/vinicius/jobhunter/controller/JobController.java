@@ -13,6 +13,8 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import com.vinicius.jobhunter.service.JobCollectorService;
+
 @RestController
 @RequestMapping("/api/jobs")
 @RequiredArgsConstructor
@@ -21,6 +23,13 @@ public class JobController {
 
     private final JobRepository jobRepository;
     private final TelegramClient telegramClient;
+    private final JobCollectorService jobCollectorService;
+
+    @PostMapping("/run")
+    public String runJobCollection() {
+        jobCollectorService.runCollection();
+        return "Job collection started!";
+    }
 
     @PostMapping("/notify-today")
     public String notifyTodayJobs() {
