@@ -19,7 +19,7 @@ public class GeminiClient {
     @Value("${job-hunter.api.gemini.key}")
     private String apiKey;
 
-    private static final String API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=";
+    private static final String API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=";
     private final RestTemplate restTemplate = new RestTemplate();
     private final Gson gson = new Gson();
 
