@@ -10,10 +10,7 @@ RUN mvn clean package -DskipTests
 FROM eclipse-temurin:17-jre
 WORKDIR /app
 COPY --from=build /app/target/*.jar app.jar
-COPY .env .env 
 
-# Expose port
 EXPOSE 8080
 
-# Run
 ENTRYPOINT ["java", "-jar", "app.jar"]
