@@ -21,7 +21,8 @@ services:
           - node.role == manager
 
   job-hunter-app:
-    image: ghcr.io/viniciustck/project-job-aggregator-system:latest
+    image: ghcr.io/viniciustck/project-job-finder-system:latest
+    container_name: job_aggregator_appbase
     environment:
       # Database
       SPRING_DATASOURCE_URL: jdbc:postgresql://job-hunter-db:5432/job_hunter

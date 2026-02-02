@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.vinicius</groupId>
-	<artifactId>job-aggregator</artifactId>
+	<artifactId>project-job-finder-system</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>job-aggregator</name>
+	<name>Job Aggregator System</name>
 	<description>Automated Job Aggregation System</description>
 	<properties>
 		<java.version>17</java.version>
