@@ -1,0 +1,8 @@
+# Ignore .agent folder in language statistics
+.agent/** linguist-vendored
+.agent/** linguist-documentation
+
+# Mark main project languages
+*.java linguist-detectable=true
+*.xml linguist-detectable=true
+*.yml linguist-detectable=true
