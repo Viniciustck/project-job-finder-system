@@ -1,0 +1,71 @@
+version: '3.8'
+
+services:
+  job-hunter-db:
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_DB: job_hunter
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - job-hunter-db-data:/var/lib/postgresql/data
+    networks:
+      - job-hunter-network
+    deploy:
+      mode: replicated
+      replicas: 1
+      restart_policy:
+        condition: any
+      placement:
+        constraints:
+          - node.role == manager
+
+  job-hunter-app:
+    image: ghcr.io/viniciustck/project-job-aggregator-system:latest
+    environment:
+      # Database
+      SPRING_DATASOURCE_URL: jdbc:postgresql://job-hunter-db:5432/job_hunter
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: ${DB_PASSWORD}
+
+      # APIs
+      GEMINI_API_KEY: ${GEMINI_API_KEY}
+      TELEGRAM_BOT_TOKEN: ${TELEGRAM_BOT_TOKEN}
+      TELEGRAM_CHAT_ID: ${TELEGRAM_CHAT_ID}
+
+      # JSearch API
+      JSEARCH_API_KEY: ${JSEARCH_API_KEY}
+
+      # Adzuna API
+      ADZUNA_APP_ID: ${ADZUNA_APP_ID}
+      ADZUNA_APP_KEY: ${ADZUNA_APP_KEY}
+
+      # Google Search (opcional)
+      GOOGLE_SEARCH_KEY: ${GOOGLE_SEARCH_KEY:-}
+      GOOGLE_SEARCH_CX: ${GOOGLE_SEARCH_CX:-}
+
+      # Spring Profile
+      SPRING_PROFILES_ACTIVE: production
+    depends_on:
+      - job-hunter-db
+    networks:
+      - job-hunter-network
+      - cloudflare_cloudflared
+    deploy:
+      mode: replicated
+      replicas: 1
+      restart_policy:
+        condition: any
+      placement:
+        constraints:
+          - node.role == manager
+
+volumes:
+  job-hunter-db-data:
+    driver: local
+
+networks:
+  job-hunter-network:
+    driver: overlay
+  cloudflare_cloudflared:
+    external: true

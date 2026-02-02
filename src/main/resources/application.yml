@@ -1,0 +1,44 @@
+spring:
+  application:
+    name: job-aggregator
+  datasource:
+    url: jdbc:postgresql://localhost:5432/job_hunter
+    username: ${DB_USER:postgres}
+    password: ${DB_PASSWORD:password}
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: validate # We will use Flyway
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+
+  # Flyway Migration
+  flyway:
+    enabled: true
+    baseline-on-migrate: true
+
+job-hunter:
+  collection:
+    enabled: true
+    cron: "0 0 8,13,18 * * *"
+  api:
+    gemini:
+      key: ${GEMINI_API_KEY:}
+    telegram:
+      token: ${TELEGRAM_BOT_TOKEN:}
+      chat-id: ${TELEGRAM_CHAT_ID:}
+    jsearch:
+      key: ${JSEARCH_API_KEY:}
+    adzuna:
+      app-id: ${ADZUNA_APP_ID:}
+      app-key: ${ADZUNA_APP_KEY:}
+  search:
+    google-key: ${GOOGLE_SEARCH_KEY:}
+    google-cx: ${GOOGLE_SEARCH_CX:}
+
+logging:
+  level:
+    com.vinicius.jobhunter: INFO
