@@ -24,10 +24,12 @@ public class JobController {
 
     @PostMapping("/notify-today")
     public String notifyTodayJobs() {
+        LocalDateTime sevenDaysAgo = LocalDateTime.now().minusDays(7);
         LocalDateTime startOfDay = LocalDate.now().atStartOfDay();
 
         List<Job> todayJobs = jobRepository.findAll().stream()
                 .filter(j -> j.getCollectedAt().isAfter(startOfDay))
+                .filter(j -> j.getCollectedAt().isAfter(sevenDaysAgo))
                 .toList();
 
         log.info("Found {} jobs collected today", todayJobs.size());

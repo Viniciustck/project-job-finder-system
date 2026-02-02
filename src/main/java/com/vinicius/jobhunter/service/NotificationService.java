@@ -58,11 +58,13 @@ public class NotificationService {
     public void sendDailyJobReport() {
         log.info("Starting job report...");
 
+        java.time.LocalDateTime sevenDaysAgo = java.time.LocalDateTime.now().minusDays(7);
         java.time.LocalDateTime startOfDay = java.time.LocalDate.now().atStartOfDay();
 
         List<Job> todayJobs = jobRepository.findAll().stream()
                 .filter(j -> j.getCollectedAt().isAfter(startOfDay))
-                .filter(j -> j.getStatus() == JobStatus.NEW) // Apenas vagas não processadas
+                .filter(j -> j.getCollectedAt().isAfter(sevenDaysAgo))
+                .filter(j -> j.getStatus() == JobStatus.NEW)
                 .toList();
 
         if (todayJobs.isEmpty()) {
